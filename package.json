@@ -27,6 +27,8 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "check:lerp": "tsx scripts/lerp-check.ts",
+    "build:site": "vite build --config site/vite.config.ts",
+    "preview:site": "vite preview --config site/vite.config.ts",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "prepublishOnly": "npm run build"
