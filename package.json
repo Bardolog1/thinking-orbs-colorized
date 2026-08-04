@@ -28,6 +28,7 @@
     "build": "vite build",
     "build:demo": "vite build --config vite.config.demo.ts",
     "typecheck": "tsc --noEmit",
+    "check:lerp": "node scripts/lerp-check.mjs",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
