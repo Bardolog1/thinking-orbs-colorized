@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import { App } from './App';
 import './styles.css';
 
-// Placeholder root — the real App mounts in E2 (site chrome + hero).
-createRoot(document.getElementById('root')!).render(<main />);
+createRoot(document.getElementById('root')!).render(<App />);
