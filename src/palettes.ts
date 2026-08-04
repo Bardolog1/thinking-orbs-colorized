@@ -239,14 +239,14 @@ function derivePalette(color: string, rgb: RGB): OrbPalette {
 
 /**
  * Resolve a palette by registry id, CSS-color shorthand (auto-derives dual
- * ramps) or inline object. Unknown/malformed input falls back to mono with
- * a dev warning — never throws. `dark` is reserved for symmetry with
- * resolveColorSet; ramps are derived for both themes.
+ * ramps) or inline object. Unknown/malformed input — including non-string,
+ * non-object values such as `undefined` or a number — falls back to mono
+ * with a dev warning. This function never throws.
  */
 export function resolvePalette(input: string | OrbPalette, dark: boolean): OrbPalette {
-  if (typeof input === 'object') {
+  if (typeof input !== 'string') {
     if (isValidPalette(input)) return input;
-    devWarn(`Invalid palette object; falling back to mono.`);
+    devWarn(`Invalid palette (expected a palette id string or a palette object); falling back to mono.`);
     return DEFAULT_PALETTE;
   }
   const id = input.trim().toLowerCase();
@@ -261,11 +261,17 @@ export function resolvePalette(input: string | OrbPalette, dark: boolean): OrbPa
 /**
  * Register a custom palette, resolvable by `palette={id}`. Invalid entries
  * are rejected with a dev warning; re-registering an existing id overwrites
- * it and warns. The frozen PALETTES snapshot is not mutated.
+ * it and warns. The `mono` id is reserved for the built-in default and is
+ * rejected (the mono fast path keys off the DEFAULT_PALETTE identity). The
+ * frozen PALETTES snapshot is not mutated.
  */
 export function registerPalette(p: OrbPalette): void {
   if (!isValidPalette(p)) {
     devWarn(`registerPalette rejected invalid palette "${p?.id ?? '(no id)'}"; not registered.`);
+    return;
+  }
+  if (p.id === 'mono') {
+    devWarn(`registerPalette rejected id "mono": reserved built-in default, cannot be overridden.`);
     return;
   }
   if (registry.has(p.id)) {
@@ -288,7 +294,10 @@ export function resolveColorSet(
   const hasOverlay = colors != null && Object.keys(colors).length > 0;
   if (palette == null && !hasOverlay) return undefined;
   const base = palette != null ? resolvePalette(palette, dark) : DEFAULT_PALETTE;
-  if (base.id === 'mono' && !hasOverlay) return undefined;
+  // Identity, not id: a user-supplied palette may legitimately carry
+  // `id: 'mono'` (e.g. an inline object) and must still be honored. Only
+  // the actual DEFAULT_PALETTE object keys the mono fast path.
+  if (base === DEFAULT_PALETTE && !hasOverlay) return undefined;
   const theme = dark ? base.dark : base.light;
   const ink = cssToRgb(theme.ink);
   const fade = cssToRgb(theme.fade);
