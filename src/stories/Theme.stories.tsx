@@ -14,10 +14,15 @@ const PANELS: Array<{ label: string; theme: 'light' | 'dark'; background: string
 
 const PALETTES: string[] = ['mono', 'graphite', 'ocean', 'sunset', 'matrix', 'midnight'];
 
+const STATES: OrbState[] = ['working', 'searching', 'solving', 'listening', 'composing', 'shaping'];
+
 const meta = {
   title: 'ThinkingOrb/Theme',
   component: ThinkingOrb,
-  parameters: { layout: 'fullscreen' }
+  parameters: { layout: 'fullscreen' },
+  argTypes: {
+    state: { control: 'select', options: STATES }
+  }
 } satisfies Meta<typeof ThinkingOrb>;
 
 // biome-ignore lint/style/noDefaultExport: Storybook CSF requires a default export

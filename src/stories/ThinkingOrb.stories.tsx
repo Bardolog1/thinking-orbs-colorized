@@ -21,7 +21,7 @@ const meta = {
     state: { control: 'select', options: STATES },
     size: { control: 'select', options: [64, 20] },
     theme: { control: 'select', options: ['auto', 'dark', 'light'] },
-    speed: { control: { type: 'range', min: 0, max: 3, step: 0.1 } },
+    speed: { control: { type: 'range', min: 0.1, max: 3, step: 0.1 } },
     paused: { control: 'boolean' },
     palette: { control: 'select', options: PALETTE_OPTIONS },
     colors: { control: 'object' },
