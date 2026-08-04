@@ -4,11 +4,44 @@
 // the tab is hidden (visibilitychange). Reduced-motion users get a
 // static representative frame that still follows the live theme.
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { MODE_DRAWS } from './engine/registry';
+import { resolveColorSet } from './palettes';
 import { resolvePreset } from './presets';
 import { useReducedMotion, useResolvedDark } from './theme';
 import type { ThinkingOrbProps } from './types';
+
+// Stable, order-independent keys for the palette/colors props. Inline
+// object literals get a fresh identity every render; keying the color memo
+// (and therefore the animation effect) on the raw objects would tear down
+// and re-create the rAF loop on every render. Strings key on themselves,
+// objects on a recursively key-sorted JSON serialization. Unserializable
+// input (e.g. circular) degrades to a sentinel rather than throwing, keeping
+// the component's never-throw contract.
+function colorKey(value: unknown): string {
+  if (value === undefined || value === null) return '';
+  if (typeof value === 'string') return `str:${value}`;
+  if (typeof value === 'object') {
+    try {
+      return `obj:${JSON.stringify(canonicalize(value))}`;
+    } catch {
+      return 'obj:unserializable';
+    }
+  }
+  return `raw:${String(value)}`;
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value !== null && typeof value === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const key of Object.keys(value as Record<string, unknown>).sort()) {
+      out[key] = canonicalize((value as Record<string, unknown>)[key]);
+    }
+    return out;
+  }
+  return value;
+}
 
 const LABELS: Record<string, string> = {
   working: 'Working…',
@@ -25,6 +58,8 @@ export function ThinkingOrb({
   theme = 'auto',
   speed = 1,
   paused = false,
+  palette,
+  colors,
   style,
   'aria-label': ariaLabel,
   ...rest
@@ -32,6 +67,11 @@ export function ThinkingOrb({
   const ref = useRef<HTMLCanvasElement | null>(null);
   const dark = useResolvedDark(theme, ref);
   const reduced = useReducedMotion();
+  const colorSet = useMemo(() => resolveColorSet(palette, colors, dark), [
+    colorKey(palette),
+    colorKey(colors),
+    dark
+  ]);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -49,7 +89,7 @@ export function ThinkingOrb({
     const frame = (tSec: number) => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, size, size);
-      draw(ctx, size, tSec, dark, opts);
+      draw(ctx, size, tSec, dark, opts, colorSet ?? undefined);
     };
 
     // reduced motion → one static, deterministic frame
@@ -100,7 +140,7 @@ export function ThinkingOrb({
       io?.disconnect();
       document.removeEventListener('visibilitychange', onVis);
     };
-  }, [state, size, dark, speed, paused, reduced]);
+  }, [state, size, dark, speed, paused, reduced, colorSet]);
 
   return (
     <canvas
