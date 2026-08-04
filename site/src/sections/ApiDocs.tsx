@@ -62,7 +62,10 @@ export function ApiDocs() {
   return (
     <section className="w-full flex flex-col gap-4" aria-label="API documentation">
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-base font-normal leading-[34px] text-(--section-title-color)">API</h2>
+        <h2 className="flex items-center gap-2 text-base font-normal leading-[34px] text-(--section-title-color)">
+          <span className="t-title-mark" aria-hidden="true" />
+          API
+        </h2>
         <p className="text-sm leading-[21px] text-(--text-muted)">
           The full prop surface of <code className="font-[Roboto_Mono,monospace] text-[13px]">ThinkingOrb</code>.
         </p>
