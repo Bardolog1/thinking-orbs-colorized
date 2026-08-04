@@ -1,7 +1,7 @@
 {
-  "name": "thinking-orbs",
-  "version": "0.1.1",
-  "description": "Dotted thought-orb loading indicators for AI & agent UIs — six tuned states, two sizes, auto dark/light",
+  "name": "thinking-orbs-colorized",
+  "version": "0.2.0",
+  "description": "Dotted thought-orb loading indicators for AI & agent UIs — six tuned states, two sizes, auto dark/light, 22 curated color palettes",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
@@ -24,11 +24,14 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "dev": "vite --config vite.config.demo.ts",
     "build": "vite build",
-    "build:demo": "vite build --config vite.config.demo.ts",
     "typecheck": "tsc --noEmit",
     "check:lerp": "tsx scripts/lerp-check.ts",
+    "build:demo": "vite build --config vite.config.demo.ts",
+    "build:site": "vite build --config site/vite.config.ts",
+    "preview:site": "vite preview --config site/vite.config.ts",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
@@ -36,6 +39,8 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/react-vite": "^8.6.18",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
@@ -43,6 +48,7 @@
     "clsx": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "storybook": "^8.6.18",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.5",
@@ -60,16 +66,20 @@
     "llm",
     "canvas",
     "animation",
-    "dark-mode"
+    "dark-mode",
+    "palette",
+    "color",
+    "theme",
+    "color-palette"
   ],
   "author": "Jakub Antalik",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jakubantalik/thinking-orbs.git"
+    "url": "git+https://github.com/Bardolog1/thinking-orbs-colorized.git"
   },
   "bugs": {
-    "url": "https://github.com/Jakubantalik/thinking-orbs/issues"
+    "url": "https://github.com/Bardolog1/thinking-orbs-colorized/issues"
   },
-  "homepage": "https://orbs.jakubantalik.com"
+  "homepage": "https://bardolog1.github.io/thinking-orbs-colorized/"
 }

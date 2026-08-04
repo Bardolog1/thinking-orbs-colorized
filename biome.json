@@ -1,7 +1,8 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
   "files": {
-    "includes": ["**", "!**/dist", "!shared/api/src/generated"]
+    "includes": ["**", "!**/dist", "!shared/api/src/generated"],
+    "excludes": [".storybook"]
   },
   "formatter": {
     "enabled": true,
