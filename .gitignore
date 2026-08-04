@@ -5,5 +5,5 @@ dist
 *.log
 .wrangler
 storybook-static
-
+openspec
 .atl
