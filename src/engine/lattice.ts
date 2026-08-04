@@ -2,7 +2,7 @@
 // wave (listening). All draw a lat/long dot field with mode-specific
 // motion, then hand off to the shared z-sorted painter.
 
-import type { Dot, ModeDraw } from './types';
+import type { Dot, ModeDraw, ResolvedRoleColors } from './types';
 import { angleDelta, hashD, makeProj, paint, radiusScale } from './core';
 
 // --- the shared solver heartbeat (rubik) ------------------------------
@@ -86,7 +86,7 @@ function makeMoves(count: number): Move[] {
 
 // --- Globe: lat/long field, a scan meridian sweeps — searching --------
 
-export const drawGlobe: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawGlobe: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const spin = 0.5;
   const cx = size / 2;
   const cy = size / 2;
@@ -120,16 +120,18 @@ export const drawGlobe: ModeDraw = (ctx, size, t, dark, o) => {
         r: ((o.rBase ?? 0.6) + (o.rDepth ?? 1.7) * depth + (o.rBoost ?? 1) * boost) * rs,
         white: (o.inkFar ?? 0.62) - (o.inkSpan ?? 0.54) * depth,
         // dimBase < 1 fades un-scanned dots so the meridian reads clearly
-        a: dimBase + (1 - dimBase) * Math.min(1, boost)
+        a: dimBase + (1 - dimBase) * Math.min(1, boost),
+        // the scan meridian is the active population; the field is the rest
+        role: boost > 0.01 ? 'active' : 'field'
       });
     }
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };
 
 // --- Rubik: bands twist in quarter turns, scramble → solve — solving --
 
-export const drawRubik: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawRubik: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const cx = size / 2;
   const cy = size / 2;
   const R = (size / 2) * 0.82;
@@ -158,16 +160,18 @@ export const drawRubik: ModeDraw = (ctx, size, t, dark, o) => {
         y: py,
         z: zr,
         r: ((o.rBase ?? 0.6) + (o.rDepth ?? 1.7) * depth + (inActive ? (o.rActive ?? 0.3) : 0)) * rs,
-        white: (o.inkFar ?? 0.62) - (o.inkSpan ?? 0.54) * depth - (inActive ? 0.14 : 0)
+        white: (o.inkFar ?? 0.62) - (o.inkSpan ?? 0.54) * depth - (inActive ? 0.14 : 0),
+        // the turning band is the active population; the rest is the field
+        role: inActive ? 'active' : 'field'
       });
     }
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };
 
 // --- Wave: a waveform rolls through the rings — listening -------------
 
-export const drawWave: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawWave: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const cx = size / 2;
   const cy = size / 2;
   // 0.76 base × 1.15 — the undulation pulls the sphere inward, so wave read
@@ -197,9 +201,11 @@ export const drawWave: ModeDraw = (ctx, size, t, dark, o) => {
         y: py,
         z,
         r: ((o.rBase ?? 0.6) + (o.rDepth ?? 1.7) * depth) * (1 + 0.4 * crest) * rs,
-        white: 0.66 - 0.56 * depth - 0.1 * crest
+        white: 0.66 - 0.56 * depth - 0.1 * crest,
+        // the wave crest is the active population; the rings are the field
+        role: crest > 0.01 ? 'active' : 'field'
       });
     }
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };

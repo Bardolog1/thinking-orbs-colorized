@@ -1,4 +1,6 @@
 import type { CSSProperties, CanvasHTMLAttributes } from 'react';
+import type { DotRole } from './engine/types';
+import type { OrbPalette } from './palettes';
 
 /**
  * The six shipped states — each a hand-tuned animation:
@@ -56,6 +58,21 @@ export interface ThinkingOrbProps extends Omit<CanvasHTMLAttributes<HTMLCanvasEl
 
   /** Freeze the animation on the current frame. @default false */
   paused?: boolean;
+
+  /**
+   * Color the orb: a curated palette id (e.g. `'ocean'`), a CSS color
+   * shorthand (e.g. `'#0ea5e9'` — dual light/dark ramps are auto-derived),
+   * or an inline `OrbPalette` object. Omitting this keeps the classic
+   * monochrome rendering. @default undefined (mono)
+   */
+  palette?: string | OrbPalette;
+
+  /**
+   * Per-role ink overlay, e.g. `{ particle: '#ff6b6b' }`. Wins over
+   * `palette` accents for the listed roles; the fade stop (depth) stays
+   * the base ramp's. @default undefined
+   */
+  colors?: Partial<Record<DotRole, string>>;
 
   style?: CSSProperties;
 }
