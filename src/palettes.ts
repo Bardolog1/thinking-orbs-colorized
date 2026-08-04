@@ -44,7 +44,7 @@ export const DEFAULT_PALETTE: OrbPalette =
 const registry = new Map<string, OrbPalette>(PALETTES.map((p) => [p.id, p]));
 
 function devWarn(message: string): void {
-  console.warn(`[thinking-orbs] ${message}`);
+  console.warn(`[thinking-orbs-colorized] ${message}`);
 }
 
 // --- CSS color parsing -------------------------------------------------
