@@ -2,6 +2,8 @@
 
 Indicadores de carga con orbes punteados para UIs de IA y agentes. Seis estados animados ajustados a mano en dos tamaños optimizados, tema claro/oscuro automático y **22 paletas de color curadas** — renderizado en un canvas 2D simple, sin WebGL ni filtros, idéntico en Chrome, Safari y Firefox.
 
+> **Un fork coloreado, inspirado en [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) de Jakub Antalik** — la librería original de orbes punteados, ajustada con precisión, sobre la que se construye este proyecto. Todo el crédito del motor corresponde a la obra original; este fork le añade paletas de color, un sitio de producto y documentación bilingüe.
+
 [Demos](https://bardolog1.github.io/thinking-orbs-colorized/) · [Repositorio](https://github.com/Bardolog1/thinking-orbs-colorized) · [Reportar un problema](https://github.com/Bardolog1/thinking-orbs-colorized/issues) · [English](README.md)
 
 ## Instalación
@@ -132,4 +134,6 @@ Se ejecuta en `http://localhost:6006` — historias de galería, tema y playgrou
 
 ## Licencia
 
-MIT © Jakub Antalik
+MIT © Jakub Antalik — el autor original y el trabajo en el que se basa este fork.
+
+Colorización, paletas, sitio y documentación bilingüe por **Bardolog1**. Fork del proyecto [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs).

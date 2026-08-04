@@ -2,6 +2,8 @@
 
 Dotted thought-orb loading indicators for AI & agent UIs. Six hand-tuned animated states at two purpose-tuned sizes, auto dark/light, **22 curated color palettes** — rendered on a plain 2D canvas, no WebGL, no filters, identical in Chrome, Safari and Firefox.
 
+> **A colorized fork, inspired by [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) by Jakub Antalik** — the original, beautifully-tuned dotted thought-orb library that this project builds upon. All engine credit goes to the original work; this fork adds color palettes, a product site, and bilingual docs on top of it.
+
 [Live demo](https://bardolog1.github.io/thinking-orbs-colorized/) · [Repository](https://github.com/Bardolog1/thinking-orbs-colorized) · [Report an issue](https://github.com/Bardolog1/thinking-orbs-colorized/issues) · [Español](README.es.md)
 
 ## Install
@@ -132,4 +134,6 @@ Runs on `http://localhost:6006` — gallery, theme and Playground stories with l
 
 ## License
 
-MIT © Jakub Antalik
+MIT © Jakub Antalik — the original author and the work this fork is based on.
+
+Colorization, palettes, site and bilingual docs by **Bardolog1**. Fork of the [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) project.
