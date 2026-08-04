@@ -2,10 +2,10 @@
 // the "composing" state. The tuned preset freezes the 3D tumble
 // (spin 0), leaving the traveling undulation on a fixed band.
 
-import type { Dot, ModeDraw } from './types';
+import type { Dot, ModeDraw, ResolvedRoleColors } from './types';
 import { fibDir, makeProj, paint, radiusScale } from './core';
 
-export const drawRibbon: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawRibbon: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const cx = size / 2;
   const cy = size / 2;
   const R = (size / 2) * 0.78;
@@ -21,7 +21,7 @@ export const drawRibbon: ModeDraw = (ctx, size, t, dark, o) => {
     const d = fibDir(i, ghostN);
     const [px, py, z] = pt(d[0] * R, d[1] * R, d[2] * R);
     const depth = (z / R + 1) / 2;
-    dots.push({ x: px, y: py, z, r: 0.8 * rs, white: 0.78, a: 0.1 + 0.22 * depth });
+    dots.push({ x: px, y: py, z, r: 0.8 * rs, white: 0.78, a: 0.1 + 0.22 * depth, role: 'ghost' });
   }
 
   // the band plane, precessing (frozen when spin=0)
@@ -63,9 +63,10 @@ export const drawRibbon: ModeDraw = (ctx, size, t, dark, o) => {
         z: zr,
         r: ((o.rBase ?? 1.1) + (o.rDepth ?? 1.7) * depth) * (1 - 0.25 * edge) * rs,
         white: 0.52 - 0.44 * depth + 0.18 * edge,
-        a: 0.4 + 0.6 * depth
+        a: 0.4 + 0.6 * depth,
+        role: 'band'
       });
     }
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };

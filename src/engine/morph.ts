@@ -6,7 +6,7 @@
 // every instant of the morph, holds and transitions alike. Plain
 // circle fills only: no canvas/SVG filters, fully cross-browser.
 
-import type { Dot, ModeDraw } from './types';
+import type { Dot, ModeDraw, ResolvedRoleColors } from './types';
 import { paint } from './core';
 
 type Path = (f: number) => [number, number];
@@ -68,7 +68,7 @@ const HOLD = 1.4;
 const MORPH = 0.9;
 const SEG = HOLD + MORPH;
 
-export const drawMorph: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawMorph: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const K = CYCLE.length;
   const tc = t % (SEG * K);
   const k = Math.floor(tc / SEG);
@@ -123,8 +123,9 @@ export const drawMorph: ModeDraw = (ctx, size, t, dark, o) => {
       y: c2 + y * size,
       z: 0,
       r: Math.max(0.35, re * size),
-      white: 0.1
+      white: 0.1,
+      role: 'outline'
     });
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };
