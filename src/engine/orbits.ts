@@ -2,10 +2,10 @@
 // (the tuned preset runs coreless): just ghost paths and the particles
 // doing the work.
 
-import type { Dot, ModeDraw } from './types';
+import type { Dot, ModeDraw, ResolvedRoleColors } from './types';
 import { hashD, makeProj, paint, radiusScale } from './core';
 
-export const drawOrbits: ModeDraw = (ctx, size, t, dark, o) => {
+export const drawOrbits: ModeDraw = (ctx, size, t, dark, o, colors) => {
   const cx = size / 2;
   const cy = size / 2;
   const R = (size / 2) * 0.82;
@@ -55,7 +55,8 @@ export const drawOrbits: ModeDraw = (ctx, size, t, dark, o) => {
         z,
         r: (o.ghostR ?? 0.9) * rs,
         white: 0.72,
-        a: (o.ghostA ?? 0.5) * (0.4 + 0.6 * depth)
+        a: (o.ghostA ?? 0.5) * (0.4 + 0.6 * depth),
+        role: 'ghost'
       });
     }
     // the particles doing the work
@@ -72,9 +73,10 @@ export const drawOrbits: ModeDraw = (ctx, size, t, dark, o) => {
         y: py,
         z,
         r: ((o.partR ?? 1.2) + (o.partRDepth ?? 1.6) * depth) * rs,
-        white: 0.3 - 0.22 * depth
+        white: 0.3 - 0.22 * depth,
+        role: 'particle'
       });
     }
   }
-  paint(ctx, dots, dark, o.rMin);
+  paint(ctx, dots, dark, o.rMin, colors);
 };
