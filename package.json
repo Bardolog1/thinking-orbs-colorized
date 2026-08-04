@@ -27,7 +27,6 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "check:lerp": "tsx scripts/lerp-check.ts",
-    "build:demo": "vite build --config vite.config.demo.ts",
     "build:site": "vite build --config site/vite.config.ts",
     "preview:site": "vite preview --config site/vite.config.ts",
     "storybook": "storybook dev -p 6006",

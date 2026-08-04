@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function GitHubIcon() {
   return (
     <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
@@ -34,9 +32,9 @@ export function PlusIcon() {
   );
 }
 
-export function ChevronDownIcon() {
+export function ChevronDownIcon({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
       <path d="M7 11L10 8L7 5" />
     </svg>
   );
