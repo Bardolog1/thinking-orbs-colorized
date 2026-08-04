@@ -4,6 +4,9 @@
 // alone. Plain 2D canvas fills only: no ctx.filter, no SVG filters, so
 // every mode renders identically in Chrome, Safari and Firefox.
 
+import type { DotRole, ResolvedRoleColors } from './types';
+import { lerpRGB } from '../palettes';
+
 export interface Dot {
   x: number;
   y: number;
@@ -12,6 +15,8 @@ export interface Dot {
   /** Ink value: 0 = darkest ink on paper. Mirrored on dark themes. */
   white: number;
   a?: number;
+  /** Visual population; selects a per-role color ramp when colors are supplied. */
+  role?: DotRole;
 }
 
 export type Projector = (x: number, y: number, z: number) => [number, number, number];
@@ -54,16 +59,30 @@ export function makeProj(yaw: number, tilt: number, cx: number, cy: number, scal
 /**
  * Painter: z-sort far→near, matte grayscale dots. On dark substrates the
  * ink value is mirrored (1 - white) so near dots read bright — the same
- * depth language on an inverted substrate.
+ * depth language on an inverted substrate. When `colors` is supplied each
+ * dot paints from its role's ramp (role ink accent over the base fade);
+ * when absent the grayscale branch is byte-identical to the legacy output.
  */
-export function paint(ctx: CanvasRenderingContext2D, dots: Dot[], dark: boolean, rMin = 0.3): void {
+export function paint(
+  ctx: CanvasRenderingContext2D,
+  dots: Dot[],
+  dark: boolean,
+  rMin = 0.3,
+  colors?: ResolvedRoleColors
+): void {
   dots.sort((a, b) => a.z - b.z);
   for (const d of dots) {
     const alpha = d.a ?? 1;
     if (alpha < 0.02) continue;
     const w = Math.min(1, Math.max(0, d.white));
-    const g = Math.round((dark ? 1 - w : w) * 255);
-    ctx.fillStyle = `rgba(${g},${g},${g},${alpha})`;
+    if (colors) {
+      const ramp = (d.role && colors[d.role]) || colors.default;
+      const c = lerpRGB(ramp.ink, ramp.fade, w);
+      ctx.fillStyle = `rgba(${Math.round(c[0])},${Math.round(c[1])},${Math.round(c[2])},${alpha})`;
+    } else {
+      const g = Math.round((dark ? 1 - w : w) * 255);
+      ctx.fillStyle = `rgba(${g},${g},${g},${alpha})`;
+    }
     ctx.beginPath();
     ctx.arc(d.x, d.y, Math.max(rMin, d.r), 0, Math.PI * 2);
     ctx.fill();
