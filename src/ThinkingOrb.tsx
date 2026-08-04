@@ -4,8 +4,9 @@
 // the tab is hidden (visibilitychange). Reduced-motion users get a
 // static representative frame that still follows the live theme.
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { MODE_DRAWS } from './engine/registry';
+import { resolveColorSet } from './palettes';
 import { resolvePreset } from './presets';
 import { useReducedMotion, useResolvedDark } from './theme';
 import type { ThinkingOrbProps } from './types';
@@ -25,6 +26,8 @@ export function ThinkingOrb({
   theme = 'auto',
   speed = 1,
   paused = false,
+  palette,
+  colors,
   style,
   'aria-label': ariaLabel,
   ...rest
@@ -32,6 +35,7 @@ export function ThinkingOrb({
   const ref = useRef<HTMLCanvasElement | null>(null);
   const dark = useResolvedDark(theme, ref);
   const reduced = useReducedMotion();
+  const colorSet = useMemo(() => resolveColorSet(palette, colors, dark), [palette, colors, dark]);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -49,7 +53,7 @@ export function ThinkingOrb({
     const frame = (tSec: number) => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, size, size);
-      draw(ctx, size, tSec, dark, opts);
+      draw(ctx, size, tSec, dark, opts, colorSet ?? undefined);
     };
 
     // reduced motion → one static, deterministic frame
@@ -100,7 +104,7 @@ export function ThinkingOrb({
       io?.disconnect();
       document.removeEventListener('visibilitychange', onVis);
     };
-  }, [state, size, dark, speed, paused, reduced]);
+  }, [state, size, dark, speed, paused, reduced, colorSet]);
 
   return (
     <canvas
