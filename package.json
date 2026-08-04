@@ -71,8 +71,11 @@
     "theme",
     "color-palette"
   ],
-  "author": "Jakub Antalik",
+  "author": "Libardo Lozano (Bardolog1)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Bardolog1/thinking-orbs-colorized.git"

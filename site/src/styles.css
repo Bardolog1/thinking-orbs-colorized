@@ -15,6 +15,16 @@
     --panel-bg: #121214;
     --pill-fg: #f5f5f7;
 
+    /* Colorized accent — ocean teal from the shipped palettes. */
+    --accent: #22a5b4;
+    --accent-strong: #86edf9;
+    --accent-soft: rgba(34, 165, 180, 0.14);
+    --accent-glow: rgba(34, 165, 180, 0.32);
+    /* Wordmark gradient — real palette accent hues (ocean → macaron → sunset). */
+    --wm-a: #86edf9;
+    --wm-b: #b086f9;
+    --wm-c: #f986b6;
+
     --icon-swap-dur: 300ms;
     --icon-swap-blur: 4px;
     --icon-swap-start-scale: 0.25;
@@ -37,8 +47,8 @@
     --tab-color: rgba(245, 245, 247, 0.5);
     --tab-hover-bg: rgba(255, 255, 255, 0.06);
     --tab-hover-color: rgba(245, 245, 247, 0.7);
-    --tab-active-bg: rgba(255, 255, 255, 0.08);
-    --tab-active-color: #f5f5f7;
+    --tab-active-bg: var(--accent-soft);
+    --tab-active-color: var(--accent-strong);
     --tab-active-shadow:
       inset 0 0 0 0.5px rgba(255, 255, 255, 0.03),
       inset 0 0.5px 0 0 rgba(255, 255, 255, 0.07);
@@ -48,7 +58,7 @@
     --strength-shadow:
       inset 0 0 0 0.5px rgba(255, 255, 255, 0.02),
       inset 0 0.5px 0 0 rgba(255, 255, 255, 0.06);
-    --strength-fill-bg: rgba(255, 255, 255, 0.1);
+    --strength-fill-bg: rgba(134, 237, 249, 0.18);
 
     --toggle-bg: rgba(255, 255, 255, 0.07);
     --toggle-hover: rgba(255, 255, 255, 0.1);
@@ -80,6 +90,14 @@
     --panel-bg: #ebebee;
     --pill-fg: #121216;
 
+    --accent: #0f7d8a;
+    --accent-strong: #0a5c66;
+    --accent-soft: rgba(15, 125, 138, 0.12);
+    --accent-glow: rgba(15, 125, 138, 0.28);
+    --wm-a: #0f8a99;
+    --wm-b: #5b3ea6;
+    --wm-c: #b83a86;
+
     --icon-btn-bg: rgba(0, 0, 0, 0.06);
     --icon-btn-hover: rgba(0, 0, 0, 0.1);
     --icon-btn-fill: #1a1a1e;
@@ -97,8 +115,8 @@
     --tab-color: rgba(10, 10, 14, 0.55);
     --tab-hover-bg: rgba(0, 0, 0, 0.07);
     --tab-hover-color: rgba(10, 10, 14, 0.7);
-    --tab-active-bg: rgba(0, 0, 0, 0.06);
-    --tab-active-color: #1a1a1e;
+    --tab-active-bg: var(--accent-soft);
+    --tab-active-color: var(--accent-strong);
     --tab-active-shadow:
       inset 0 0 0 0.5px rgba(0, 0, 0, 0.02),
       inset 0 0.5px 0 0 rgba(0, 0, 0, 0.06);
@@ -108,7 +126,7 @@
     --strength-shadow:
       inset 0 0 0 0.5px rgba(0, 0, 0, 0.02),
       inset 0 0.5px 0 0 rgba(0, 0, 0, 0.06);
-    --strength-fill-bg: rgba(0, 0, 0, 0.07);
+    --strength-fill-bg: rgba(15, 125, 138, 0.16);
 
     --toggle-bg: rgba(0, 0, 0, 0.06);
     --toggle-hover: rgba(0, 0, 0, 0.1);
@@ -141,6 +159,29 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: background-color 0.2s, color 0.2s;
+  }
+
+  /* Colorized identity helpers */
+
+  .t-wordmark {
+    background-image: linear-gradient(90deg, var(--wm-a), var(--wm-b), var(--wm-c));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .t-title-mark {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    border-radius: 2px;
+    background-image: linear-gradient(180deg, var(--accent), var(--accent-strong));
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .t-hero-glow {
+    background-image: radial-gradient(120% 90% at 50% 110%, var(--accent-glow), transparent 62%);
   }
 }
 

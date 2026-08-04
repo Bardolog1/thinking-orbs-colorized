@@ -9,7 +9,10 @@ export function PaletteGallery({ dark }: { dark: boolean }) {
   return (
     <section className="w-full flex flex-col gap-4" aria-label="Palette gallery">
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-base font-normal leading-[34px] text-(--section-title-color)">Palettes</h2>
+        <h2 className="flex items-center gap-2 text-base font-normal leading-[34px] text-(--section-title-color)">
+          <span className="t-title-mark" aria-hidden="true" />
+          Palettes
+        </h2>
         <p className="text-sm leading-[21px] text-(--text-muted)">
           All {PALETTES.length} curated palettes shipped with the package — pass any{' '}
           <code className="font-[Roboto_Mono,monospace] text-[13px]">id</code> to{' '}

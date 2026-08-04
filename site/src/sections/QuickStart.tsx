@@ -19,7 +19,10 @@ export function QuickStart() {
   return (
     <section className="w-full flex flex-col gap-4" aria-label="Quick start">
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-base font-normal leading-[34px] text-(--section-title-color)">Quick start</h2>
+        <h2 className="flex items-center gap-2 text-base font-normal leading-[34px] text-(--section-title-color)">
+          <span className="t-title-mark" aria-hidden="true" />
+          Quick start
+        </h2>
         <p className="text-sm leading-[21px] text-(--text-muted)">
           Install the package and drop in an orb. Explore every state, size, palette
           and control locally with{' '}

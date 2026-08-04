@@ -3,6 +3,7 @@ import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { useTheme } from './hooks/useTheme';
 import { ApiDocs } from './sections/ApiDocs';
+import { CustomPalettes } from './sections/CustomPalettes';
 import { Hero } from './sections/Hero';
 import { LiveDemo } from './sections/LiveDemo';
 import { PaletteGallery } from './sections/PaletteGallery';
@@ -37,6 +38,7 @@ export function App() {
           </div>
           <PaletteGallery dark={galleryDark} />
         </div>
+        <CustomPalettes />
         <ApiDocs />
         <QuickStart />
       </main>
